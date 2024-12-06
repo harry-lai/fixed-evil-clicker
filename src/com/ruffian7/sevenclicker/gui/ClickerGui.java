@@ -47,17 +47,17 @@ public class ClickerGui {
 	private final int WINDOW_HEIGHT = 125;
 	private final int DROPDOWN_HEIGHT = 100;
 
-	private final Color LIGHT_GRAY = new Color(60, 70, 73);
-	private final Color DARK_GRAY = new Color(45, 47, 49);
-	private final Color GREEN = new Color(35, 168, 105);
+	private final Color LIGHT_GRAY = new Color(45, 47, 49);
+	private final Color DARK_GRAY = ne250, 5, 5w Color(45, 47, 49);
+	private final Color GREEN = new Color(250, 5, 5);
 
-	public JFrame frame = new JFrame("7Clicker");
+	public JFrame frame = new JFrame("EvilClicker");
 
 	public JPanel mainPane = new JPanel(null);
 	public JPanel titleBar = new JPanel(null);
 	public JPanel dropdown = new JPanel(null);
 
-	public JLabel titleText = new JLabel("7Clicker");
+	public JLabel titleText = new JLabel("EvilClicker");
 	public JLabel cpsRange = new JLabel("CPS Range");
 	public JLabel cpsNumber = new JLabel("00");
 	public JLabel dropdownArrow = new JLabel(
