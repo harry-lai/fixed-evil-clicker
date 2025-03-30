@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EVIL-CLICKER:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/EVIL_CLICKER_jar</output-path>
+    <root id="archive" name="EVIL-CLICKER.jar">
+      <element id="module-output" name="EVIL-CLICKER" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/7Clicker.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/trident.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jnativehook-2.0.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

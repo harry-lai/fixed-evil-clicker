@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="EVIL-CLICKER">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/7Clicker.jar!/" />
+      <root url="jar://$PROJECT_DIR$/trident.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jnativehook-2.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

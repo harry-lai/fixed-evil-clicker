@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>AutoClicker.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AutoClicker.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">ruffian7</span><span class="s2">.</span><span class="s1">sevenclicker</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">AWTException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Point</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">awt</span><span class="s2">.</span><span class="s1">Robot</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Random</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">logging</span><span class="s2">.</span><span class="s1">Level</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">logging</span><span class="s2">.</span><span class="s1">LogManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">logging</span><span class="s2">.</span><span class="s1">Logger</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">swing</span><span class="s2">.</span><span class="s1">ImageIcon</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">jnativehook</span><span class="s2">.</span><span class="s1">GlobalScreen</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">jnativehook</span><span class="s2">.</span><span class="s1">NativeHookException</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">ruffian7</span><span class="s2">.</span><span class="s1">sevenclicker</span><span class="s2">.</span><span class="s1">gui</span><span class="s2">.</span><span class="s1">ClickerGui</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">ruffian7</span><span class="s2">.</span><span class="s1">sevenclicker</span><span class="s2">.</span><span class="s1">listener</span><span class="s2">.</span><span class="s1">KeyListener</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">ruffian7</span><span class="s2">.</span><span class="s1">sevenclicker</span><span class="s2">.</span><span class="s1">listener</span><span class="s2">.</span><span class="s1">MouseListener</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">AutoClicker </span><span class="s2">{</span>
+
+	<span class="s0">public static </span><span class="s1">Robot robot</span><span class="s2">;</span>
+	<span class="s0">public static </span><span class="s1">Point mousePos</span><span class="s2">;</span>
+	<span class="s0">public static </span><span class="s1">ClickerGui gui </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ClickerGui</span><span class="s2">();</span>
+
+	<span class="s0">public static boolean </span><span class="s1">toggled </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+	<span class="s0">public static boolean </span><span class="s1">activated </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+	<span class="s0">public static boolean </span><span class="s1">skipNext </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+	<span class="s0">public static boolean </span><span class="s1">blockHit </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+	<span class="s0">private static int </span><span class="s1">delay </span><span class="s2">= -</span><span class="s3">1</span><span class="s2">;</span>
+	<span class="s0">public static long </span><span class="s1">lastTime </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+	<span class="s0">public static int </span><span class="s1">minCPS </span><span class="s2">= </span><span class="s3">8</span><span class="s2">;</span>
+	<span class="s0">public static int </span><span class="s1">maxCPS </span><span class="s2">= </span><span class="s3">12</span><span class="s2">;</span>
+	<span class="s0">public static int </span><span class="s1">button </span><span class="s2">= </span><span class="s3">1</span><span class="s2">;</span>
+
+	<span class="s0">public static </span><span class="s1">String</span><span class="s2">[] </span><span class="s1">toggleKey </span><span class="s2">= { </span><span class="s4">&quot;&quot;</span><span class="s2">, </span><span class="s4">&quot;&quot; </span><span class="s2">};</span>
+	<span class="s0">public static int </span><span class="s1">toggleMouseButton </span><span class="s2">= </span><span class="s3">3</span><span class="s2">;</span>
+
+	<span class="s0">public static void </span><span class="s1">main</span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">args</span><span class="s2">) {</span>
+		<span class="s1">LogManager</span><span class="s2">.</span><span class="s1">getLogManager</span><span class="s2">().</span><span class="s1">reset</span><span class="s2">();</span>
+		<span class="s1">Logger</span><span class="s2">.</span><span class="s1">getLogger</span><span class="s2">(</span><span class="s1">GlobalScreen</span><span class="s2">.</span><span class="s0">class</span><span class="s2">.</span><span class="s1">getPackage</span><span class="s2">().</span><span class="s1">getName</span><span class="s2">()).</span><span class="s1">setLevel</span><span class="s2">(</span><span class="s1">Level</span><span class="s2">.</span><span class="s1">OFF</span><span class="s2">);</span>
+
+		<span class="s0">try </span><span class="s2">{</span>
+			<span class="s1">robot </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Robot</span><span class="s2">();</span>
+			<span class="s1">GlobalScreen</span><span class="s2">.</span><span class="s1">registerNativeHook</span><span class="s2">();</span>
+			<span class="s1">GlobalScreen</span><span class="s2">.</span><span class="s1">addNativeMouseListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">MouseListener</span><span class="s2">());</span>
+			<span class="s1">GlobalScreen</span><span class="s2">.</span><span class="s1">addNativeKeyListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">KeyListener</span><span class="s2">());</span>
+		<span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">NativeHookException </span><span class="s2">| </span><span class="s1">AWTException e</span><span class="s2">) {</span>
+			<span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+		<span class="s2">}</span>
+
+		<span class="s0">try </span><span class="s2">{</span>
+			<span class="s0">while </span><span class="s2">(</span><span class="s0">true</span><span class="s2">) {</span>
+				<span class="s1">Thread</span><span class="s2">.</span><span class="s1">sleep</span><span class="s2">(</span><span class="s3">1</span><span class="s2">);</span>
+				<span class="s1">Random random </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Random</span><span class="s2">();</span>
+				<span class="s0">if </span><span class="s2">(</span><span class="s1">delay </span><span class="s2">== -</span><span class="s3">1</span><span class="s2">)</span>
+					<span class="s1">delay </span><span class="s2">= </span><span class="s1">random</span><span class="s2">.</span><span class="s1">nextInt</span><span class="s2">((</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">minCPS</span><span class="s2">) - (</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">maxCPS</span><span class="s2">) + </span><span class="s3">1</span><span class="s2">) + (</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">maxCPS</span><span class="s2">);</span>
+
+				<span class="s0">if </span><span class="s2">(</span><span class="s1">activated </span><span class="s2">&amp;&amp; </span><span class="s1">toggled </span><span class="s2">&amp;&amp; !</span><span class="s1">gui</span><span class="s2">.</span><span class="s1">focused</span><span class="s2">) {</span>
+					<span class="s0">if </span><span class="s2">(</span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">() - </span><span class="s1">lastTime </span><span class="s2">&gt;= </span><span class="s1">delay</span><span class="s2">) {</span>
+						<span class="s1">click</span><span class="s2">();</span>
+						<span class="s1">lastTime </span><span class="s2">= </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s2">();</span>
+						<span class="s1">delay </span><span class="s2">= </span><span class="s1">random</span><span class="s2">.</span><span class="s1">nextInt</span><span class="s2">((</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">minCPS</span><span class="s2">) - (</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">maxCPS</span><span class="s2">) + </span><span class="s3">1</span><span class="s2">) + (</span><span class="s3">1000 </span><span class="s2">/ </span><span class="s1">maxCPS</span><span class="s2">);</span>
+					<span class="s2">}</span>
+				<span class="s2">}</span>
+			<span class="s2">}</span>
+		<span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">InterruptedException e</span><span class="s2">) {</span>
+			<span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+		<span class="s2">}</span>
+	<span class="s2">}</span>
+
+	<span class="s0">private static void </span><span class="s1">click</span><span class="s2">() {</span>
+		<span class="s1">skipNext </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+		<span class="s1">robot</span><span class="s2">.</span><span class="s1">mousePress</span><span class="s2">((</span><span class="s1">button </span><span class="s2">== </span><span class="s3">1</span><span class="s2">) ? </span><span class="s3">16 </span><span class="s2">: </span><span class="s3">4</span><span class="s2">);</span>
+		<span class="s1">robot</span><span class="s2">.</span><span class="s1">mouseRelease</span><span class="s2">((</span><span class="s1">button </span><span class="s2">== </span><span class="s3">1</span><span class="s2">) ? </span><span class="s3">16 </span><span class="s2">: </span><span class="s3">4</span><span class="s2">);</span>
+
+		<span class="s0">if </span><span class="s2">(</span><span class="s1">blockHit</span><span class="s2">) {</span>
+			<span class="s1">robot</span><span class="s2">.</span><span class="s1">mousePress</span><span class="s2">((</span><span class="s1">button </span><span class="s2">== </span><span class="s3">1</span><span class="s2">) ? </span><span class="s3">4 </span><span class="s2">: </span><span class="s3">16</span><span class="s2">);</span>
+			<span class="s1">robot</span><span class="s2">.</span><span class="s1">mouseRelease</span><span class="s2">((</span><span class="s1">button </span><span class="s2">== </span><span class="s3">1</span><span class="s2">) ? </span><span class="s3">4 </span><span class="s2">: </span><span class="s3">16</span><span class="s2">);</span>
+		<span class="s2">}</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public static void </span><span class="s1">toggle</span><span class="s2">() {</span>
+		<span class="s0">if </span><span class="s2">(</span><span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">toggled</span><span class="s2">) {</span>
+			<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">toggled </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+			<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">gui</span><span class="s2">.</span><span class="s1">powerButton</span>
+					<span class="s2">.</span><span class="s1">setIcon</span><span class="s2">(</span><span class="s0">new </span><span class="s1">ImageIcon</span><span class="s2">(</span><span class="s1">AutoClicker</span><span class="s2">.</span><span class="s0">class</span><span class="s2">.</span><span class="s1">getClassLoader</span><span class="s2">().</span><span class="s1">getResource</span><span class="s2">(</span><span class="s4">&quot;assets/power_button.png&quot;</span><span class="s2">)));</span>
+		<span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+			<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">toggled </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+			<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">gui</span><span class="s2">.</span><span class="s1">powerButton</span><span class="s2">.</span><span class="s1">setIcon</span><span class="s2">(</span>
+					<span class="s0">new </span><span class="s1">ImageIcon</span><span class="s2">(</span><span class="s1">AutoClicker</span><span class="s2">.</span><span class="s0">class</span><span class="s2">.</span><span class="s1">getClassLoader</span><span class="s2">().</span><span class="s1">getResource</span><span class="s2">(</span><span class="s4">&quot;assets/power_button_on.png&quot;</span><span class="s2">)));</span>
+		<span class="s2">}</span>
+
+		<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">activated </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+		<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">skipNext </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+		<span class="s1">AutoClicker</span><span class="s2">.</span><span class="s1">blockHit </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+	<span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
